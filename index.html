@@ -90,6 +90,7 @@
         
         // Configurações adicionais
         EJS_startOnLoaded = true; // Inicia automaticamente
+        EJS_volume = 0; // Inicia mutado para burlar a rigorosa política de autoplay do navegador
         EJS_color = '#1a1a2e'; // Cor de fundo
         // Habilitar controles virtuais na tela
         EJS_virtualGamepad = true; // Use essa chave que frequentemente habilita o touch
@@ -107,42 +108,41 @@
             { type: "button", location: "top", right: "5%", top: "10%", width: "80px", height: "40px", input_value: 11, text: "R" }
         ];
         
-        // Tentar forçar o início sem pausa
+        // Tentar forçar o início sem pausa (já que o áudio está mutado, deve passar)
         EJS_onReady = function() {
             setTimeout(function() {
                 try {
-                    // Força o emulador a despausar mesmo sem interação prévia
+                    // Força o emulador a despausar 
                     if (window.EJS_emulator && typeof window.EJS_emulator.unpause === 'function') {
                         window.EJS_emulator.unpause();
                     }
                     var canvas = document.querySelector('#game canvas');
                     if (canvas) {
-                        // Tenta despachar um evento de clique no canvas para enganar a política de áudio
-                        canvas.dispatchEvent(new Event('mousedown'));
-                        canvas.dispatchEvent(new Event('mouseup'));
-                        canvas.dispatchEvent(new Event('click'));
                         canvas.focus();
                     }
                 } catch(e) {}
             }, 500);
         };
         
-        // Captura o primeiro clique do usuário em qualquer lugar para garantir que o áudio/emulador destrave
-        document.addEventListener('click', function() {
+        // Ativa o áudio no primeiro toque/clique do usuário na tela
+        function enableAudioOnFirstInteraction() {
             try {
-                if (window.EJS_emulator && typeof window.EJS_emulator.unpause === 'function') {
-                    window.EJS_emulator.unpause();
+                if (window.EJS_emulator) {
+                    if (typeof window.EJS_emulator.unpause === 'function') {
+                        window.EJS_emulator.unpause();
+                    }
+                    // Restaura o volume ao padrão do EmulatorJS
+                    if (typeof window.EJS_emulator.unmute === 'function') {
+                        window.EJS_emulator.unmute();
+                    } else if (typeof window.EJS_emulator.setVolume === 'function') {
+                        window.EJS_emulator.setVolume(1);
+                    }
                 }
             } catch(e) {}
-        }, { once: true });
+        }
         
-        document.addEventListener('touchstart', function() {
-            try {
-                if (window.EJS_emulator && typeof window.EJS_emulator.unpause === 'function') {
-                    window.EJS_emulator.unpause();
-                }
-            } catch(e) {}
-        }, { once: true });
+        document.addEventListener('click', enableAudioOnFirstInteraction, { once: true });
+        document.addEventListener('touchstart', enableAudioOnFirstInteraction, { once: true });
 
         // Remover tela de loading quando o jogo carregar
         window.addEventListener('load', function() {
