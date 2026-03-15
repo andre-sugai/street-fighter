@@ -1,0 +1,11 @@
+{
+  "name": "Street Fighter II",
+  "short_name": "Street Fighter",
+  "description": "Jogue Street Fighter II no seu navegador",
+  "start_url": "/index.html",
+  "display": "fullscreen",
+  "background_color": "#1a1a2e",
+  "theme_color": "#d32f2f",
+  "orientation": "landscape",
+  "icons": []
+}

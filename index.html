@@ -6,6 +6,9 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <title>Street Fighter II - SNES</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#d32f2f">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <style>
         * {
             margin: 0;
@@ -137,6 +140,7 @@
         
         // Configurações adicionais
         EJS_startOnLoaded = true; // Inicia automaticamente (agora vai funcionar pois só carregará APÓS o clique)
+        EJS_fullscreenOnLoaded = true; // Força tela cheia do emulador quando carregado
         EJS_color = '#1a1a2e'; // Cor de fundo
         
         // Habilitar controles virtuais na tela
@@ -155,8 +159,24 @@
             { type: "button", location: "top", right: "5%", top: "10%", width: "80px", height: "40px", input_value: 11, text: "R" }
         ];
         
+        // Função para colocar a janela toda em tela cheia (para mobile e desktop)
+        function requestFullScreen(element) {
+            if(element.requestFullscreen) {
+                element.requestFullscreen().catch(err => {});
+            } else if(element.mozRequestFullScreen) { // Firefox
+                element.mozRequestFullScreen().catch(err => {});
+            } else if(element.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                element.webkitRequestFullscreen().catch(err => {});
+            } else if(element.msRequestFullscreen) { // IE/Edge
+                element.msRequestFullscreen().catch(err => {});
+            }
+        }
+
         // Lógica do botão INICIAR JOGO
         document.getElementById('start-btn').addEventListener('click', function() {
+            // Tenta forçar a página inteira para tela cheia imediatamente após o clique
+            requestFullScreen(document.documentElement);
+            
             // Esconde a tela inicial e mostra o loading
             document.getElementById('start-overlay').style.display = 'none';
             document.getElementById('loading').style.display = 'flex';
