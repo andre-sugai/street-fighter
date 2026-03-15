@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <title>SNES Game</title>
+    <title>Street Fighter II - SNES</title>
     <style>
         * {
             margin: 0;
@@ -19,6 +19,45 @@
             overflow: hidden;
             touch-action: manipulation;
         }
+
+        #start-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #1a1a2e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        #start-btn {
+            padding: 20px 50px;
+            font-size: 26px;
+            font-weight: 900;
+            color: #fff;
+            background: #d32f2f;
+            border: 4px solid #fbc02d;
+            border-radius: 12px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 8px 25px rgba(211, 47, 47, 0.6);
+            transition: all 0.2s ease;
+            font-family: impact, sans-serif;
+        }
+
+        #start-btn:hover {
+            background: #f44336;
+            transform: scale(1.05);
+            box-shadow: 0 12px 30px rgba(244, 67, 54, 0.8);
+        }
+
+        #start-btn:active {
+            transform: scale(0.95);
+        }
         
         #loading {
             position: fixed;
@@ -27,7 +66,7 @@
             width: 100%;
             height: 100%;
             background: #1a1a2e;
-            display: flex;
+            display: none; /* Só aparece após o clique no botão Start */
             flex-direction: column;
             justify-content: center;
             align-items: center;
@@ -72,11 +111,19 @@
     </style>
 </head>
 <body>
+
+    <!-- Overlay do Botão Inicial -->
+    <div id="start-overlay">
+        <button id="start-btn">INICIAR JOGO</button>
+    </div>
+
+    <!-- Tela de Carregamento -->
     <div id="loading">
         <div class="spinner"></div>
-        <p>Carregando jogo...</p>
+        <p>Carregando emulador...</p>
     </div>
     
+    <!-- Container do Jogo -->
     <div id="game-container">
         <div id="game"></div>
     </div>
@@ -89,11 +136,11 @@
         EJS_pathtodata = 'https://cdn.emulatorjs.org/stable/data/';
         
         // Configurações adicionais
-        EJS_startOnLoaded = true; // Inicia automaticamente
-        EJS_volume = 0; // Inicia mutado para burlar a rigorosa política de autoplay do navegador
+        EJS_startOnLoaded = true; // Inicia automaticamente (agora vai funcionar pois só carregará APÓS o clique)
         EJS_color = '#1a1a2e'; // Cor de fundo
+        
         // Habilitar controles virtuais na tela
-        EJS_virtualGamepad = true; // Use essa chave que frequentemente habilita o touch
+        EJS_virtualGamepad = true;
         EJS_GameUrl = 'rom.smc';
         
         EJS_VirtualGamepadSettings = [
@@ -108,51 +155,26 @@
             { type: "button", location: "top", right: "5%", top: "10%", width: "80px", height: "40px", input_value: 11, text: "R" }
         ];
         
-        // Tentar forçar o início sem pausa (já que o áudio está mutado, deve passar)
-        EJS_onReady = function() {
-            setTimeout(function() {
-                try {
-                    // Força o emulador a despausar 
-                    if (window.EJS_emulator && typeof window.EJS_emulator.unpause === 'function') {
-                        window.EJS_emulator.unpause();
-                    }
-                    var canvas = document.querySelector('#game canvas');
-                    if (canvas) {
-                        canvas.focus();
-                    }
-                } catch(e) {}
-            }, 500);
-        };
-        
-        // Ativa o áudio no primeiro toque/clique do usuário na tela
-        function enableAudioOnFirstInteraction() {
-            try {
-                if (window.EJS_emulator) {
-                    if (typeof window.EJS_emulator.unpause === 'function') {
-                        window.EJS_emulator.unpause();
-                    }
-                    // Restaura o volume ao padrão do EmulatorJS
-                    if (typeof window.EJS_emulator.unmute === 'function') {
-                        window.EJS_emulator.unmute();
-                    } else if (typeof window.EJS_emulator.setVolume === 'function') {
-                        window.EJS_emulator.setVolume(1);
-                    }
-                }
-            } catch(e) {}
-        }
-        
-        document.addEventListener('click', enableAudioOnFirstInteraction, { once: true });
-        document.addEventListener('touchstart', enableAudioOnFirstInteraction, { once: true });
-
-        // Remover tela de loading quando o jogo carregar
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                document.getElementById('loading').style.display = 'none';
-            }, 2000);
+        // Lógica do botão INICIAR JOGO
+        document.getElementById('start-btn').addEventListener('click', function() {
+            // Esconde a tela inicial e mostra o loading
+            document.getElementById('start-overlay').style.display = 'none';
+            document.getElementById('loading').style.display = 'flex';
+            
+            // Injeta o EmulatorJS no momento do clique. 
+            // Como isso ocorre num evento de interação do usuário, o navegador permite o áudio fluir livremente!
+            var script = document.createElement('script');
+            script.src = "https://cdn.emulatorjs.org/stable/data/loader.js";
+            
+            // Esconde o modal de loading 3 segundos após o script carregar
+            script.onload = function() {
+                setTimeout(function() {
+                    document.getElementById('loading').style.display = 'none';
+                }, 3000);
+            };
+            
+            document.body.appendChild(script);
         });
     </script>
-    
-    <!-- Carregar EmulatorJS -->
-    <script src="https://cdn.emulatorjs.org/stable/data/loader.js"></script>
 </body>
 </html>
