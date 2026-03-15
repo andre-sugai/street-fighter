@@ -110,7 +110,32 @@
             height: 100%;
             max-width: 100%;
             max-height: 100%;
+            position: relative; /* Necessário para os botões virtuais se posicionarem em relação ao game */
         }
+        
+        /* OVERRIDE FORÇADO PARA OS CONTROLES VIRTUAIS DO EMULATORJS */
+        
+        /* Topo - ESQ (L) e DIR (R) */
+        div[title="ESQ"] { top: 8% !important; left: 5% !important; bottom: auto !important; right: auto !important; width: 90px !important; height: 50px !important; }
+        div[title="DIR"] { top: 8% !important; right: 5% !important; bottom: auto !important; left: auto !important; width: 90px !important; height: 50px !important; }
+
+        /* Direcional - Canto inferior esquerdo */
+        div[title="dpad"], div.dpad, div[title="d-pad"] { left: 5% !important; bottom: 20% !important; top: auto !important; right: auto !important; width: 150px !important; height: 150px !important; }
+
+        /* Botões de Ação - Canto inferior direito (Formato Diamante) */
+        div[title="Y"] { right: 28% !important; bottom: 35% !important; top: auto !important; left: auto !important; width: 50px !important; height: 50px !important; }
+        div[title="X"] { right: 18% !important; bottom: 50% !important; top: auto !important; left: auto !important; width: 50px !important; height: 50px !important; }
+        div[title="A"] { right: 8% !important; bottom: 35% !important; top: auto !important; left: auto !important; width: 50px !important; height: 50px !important; }
+        div[title="B"] { right: 18% !important; bottom: 20% !important; top: auto !important; left: auto !important; width: 50px !important; height: 50px !important; }
+
+        /* Select e Start - Abaixo do direcional */
+        div[title="Select"] { left: 5% !important; bottom: 5% !important; top: auto !important; right: auto !important; width: 60px !important; height: 30px !important; }
+        div[title="Start"] { left: 20% !important; bottom: 5% !important; top: auto !important; right: auto !important; width: 60px !important; height: 30px !important; }
+
+        /* Rápido e Lento - Abaixo dos botões de ação */
+        div[title="Rápido"] { right: 25% !important; bottom: 5% !important; top: auto !important; left: auto !important; width: 60px !important; height: 30px !important; }
+        div[title="Lento"] { right: 8% !important; bottom: 5% !important; top: auto !important; left: auto !important; width: 60px !important; height: 30px !important; }
+
     </style>
 </head>
 <body>
