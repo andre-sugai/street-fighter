@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>SNES Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #1a1a2e;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            overflow: hidden;
+            touch-action: manipulation;
+        }
+        
+        #loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #1a1a2e;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            color: #fff;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top-color: #00d4ff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        #loading p {
+            font-size: 16px;
+            color: #aaa;
+        }
+        
+        #game-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #000;
+        }
+        
+        #game {
+            width: 100%;
+            height: 100%;
+            max-width: 100%;
+            max-height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="loading">
+        <div class="spinner"></div>
+        <p>Carregando jogo...</p>
+    </div>
+    
+    <div id="game-container">
+        <div id="game"></div>
+    </div>
+    
+    <script>
+        // Configuração do EmulatorJS
+        EJS_player = '#game';
+        EJS_core = 'snes';
+        EJS_gameUrl = 'rom.smc'; // Nome do arquivo da ROM
+        EJS_pathtodata = 'https://cdn.emulatorjs.org/stable/data/';
+        
+        // Configurações adicionais
+        EJS_startOnLoaded = true; // Inicia automaticamente
+        EJS_color = '#1a1a2e'; // Cor de fundo
+        // Habilitar controles virtuais na tela
+        EJS_virtualGamepad = true; // Use essa chave que frequentemente habilita o touch
+        EJS_GameUrl = 'rom.smc';
+        
+        EJS_VirtualGamepadSettings = [
+            { type: "dpad", location: "left", left: "10%", bottom: "10%", width: "150px", height: "150px", inputValues: [4, 5, 6, 7] },
+            { type: "button", location: "right", right: "20%", bottom: "20%", width: "50px", height: "50px", input_value: 0, text: "A" },
+            { type: "button", location: "right", right: "30%", bottom: "10%", width: "50px", height: "50px", input_value: 8, text: "B" },
+            { type: "button", location: "right", right: "10%", bottom: "30%", width: "50px", height: "50px", input_value: 1, text: "X" },
+            { type: "button", location: "right", right: "20%", bottom: "40%", width: "50px", height: "50px", input_value: 9, text: "Y" },
+            { type: "button", location: "bottom", left: "40%", bottom: "10%", width: "60px", height: "30px", input_value: 2, text: "SELECT" },
+            { type: "button", location: "bottom", left: "55%", bottom: "10%", width: "60px", height: "30px", input_value: 3, text: "START" },
+            { type: "button", location: "top", left: "5%", top: "10%", width: "80px", height: "40px", input_value: 10, text: "L" },
+            { type: "button", location: "top", right: "5%", top: "10%", width: "80px", height: "40px", input_value: 11, text: "R" }
+        ];
+        // Remover tela de loading quando o jogo carregar
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('loading').style.display = 'none';
+            }, 2000);
+        });
+    </script>
+    
+    <!-- Carregar EmulatorJS -->
+    <script src="https://cdn.emulatorjs.org/stable/data/loader.js"></script>
+</body>
+</html>
