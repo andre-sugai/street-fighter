@@ -110,32 +110,7 @@
             height: 100%;
             max-width: 100%;
             max-height: 100%;
-            position: relative; /* Necessário para os botões virtuais se posicionarem em relação ao game */
         }
-        
-        /* OVERRIDE FORÇADO PARA OS CONTROLES VIRTUAIS DO EMULATORJS */
-        
-        /* Topo - ESQ (L) e DIR (R) */
-        div[title="ESQ"] { top: 8% !important; left: 5% !important; bottom: auto !important; right: auto !important; width: 90px !important; height: 50px !important; }
-        div[title="DIR"] { top: 8% !important; right: 5% !important; bottom: auto !important; left: auto !important; width: 90px !important; height: 50px !important; }
-
-        /* Direcional - Canto inferior esquerdo */
-        div[title="dpad"], div.dpad, div[title="d-pad"] { left: 5% !important; bottom: 20% !important; top: auto !important; right: auto !important; width: 150px !important; height: 150px !important; }
-
-        /* Botões de Ação - Canto inferior direito (Formato Diamante) */
-        div[title="Y"] { right: 28% !important; bottom: 35% !important; top: auto !important; left: auto !important; width: 50px !important; height: 50px !important; }
-        div[title="X"] { right: 18% !important; bottom: 50% !important; top: auto !important; left: auto !important; width: 50px !important; height: 50px !important; }
-        div[title="A"] { right: 8% !important; bottom: 35% !important; top: auto !important; left: auto !important; width: 50px !important; height: 50px !important; }
-        div[title="B"] { right: 18% !important; bottom: 20% !important; top: auto !important; left: auto !important; width: 50px !important; height: 50px !important; }
-
-        /* Select e Start - Abaixo do direcional */
-        div[title="Select"] { left: 5% !important; bottom: 5% !important; top: auto !important; right: auto !important; width: 60px !important; height: 30px !important; }
-        div[title="Start"] { left: 20% !important; bottom: 5% !important; top: auto !important; right: auto !important; width: 60px !important; height: 30px !important; }
-
-        /* Rápido e Lento - Abaixo dos botões de ação */
-        div[title="Rápido"] { right: 25% !important; bottom: 5% !important; top: auto !important; left: auto !important; width: 60px !important; height: 30px !important; }
-        div[title="Lento"] { right: 8% !important; bottom: 5% !important; top: auto !important; left: auto !important; width: 60px !important; height: 30px !important; }
-
     </style>
 </head>
 <body>
@@ -177,25 +152,25 @@
         
         EJS_VirtualGamepadSettings = [
             // Topo - ESQ e DIR
-            { type: "button", id: "btn_l", location: "left", input_value: 10, text: "ESQ" },
-            { type: "button", id: "btn_r", location: "right", input_value: 11, text: "DIR" },
+            { type: "button", id: "btn_l", location: "left", left: "5%", top: "8%", input_value: 10, text: "ESQ" },
+            { type: "button", id: "btn_r", location: "right", right: "5%", top: "8%", input_value: 11, text: "DIR" },
 
             // Direcional - Canto inferior esquerdo
-            { type: "dpad", id: "dpad_main", location: "left", inputValues: [4, 5, 6, 7] },
+            { type: "dpad", id: "dpad_main", location: "left", left: "5%", top: "50%", inputValues: [4, 5, 6, 7] },
 
             // Botões de Ação - Canto inferior direito (Formato Diamante)
-            { type: "button", id: "btn_y", location: "right", input_value: 9, text: "Y" },
-            { type: "button", id: "btn_x", location: "right", input_value: 1, text: "X" },
-            { type: "button", id: "btn_a", location: "right", input_value: 0, text: "A" },
-            { type: "button", id: "btn_b", location: "right", input_value: 8, text: "B" },
+            { type: "button", id: "btn_y", location: "right", right: "28%", top: "60%", input_value: 9, text: "Y" },
+            { type: "button", id: "btn_x", location: "right", right: "18%", top: "45%", input_value: 1, text: "X" },
+            { type: "button", id: "btn_a", location: "right", right: "8%", top: "60%", input_value: 0, text: "A" },
+            { type: "button", id: "btn_b", location: "right", right: "18%", top: "75%", input_value: 8, text: "B" },
 
             // Select e Start - Abaixo do direcional
-            { type: "button", id: "btn_sel", location: "left", input_value: 2, text: "Select" },
-            { type: "button", id: "btn_start", location: "left", input_value: 3, text: "Start" },
+            { type: "button", id: "btn_sel", location: "left", left: "5%", top: "85%", input_value: 2, text: "Select" },
+            { type: "button", id: "btn_start", location: "left", left: "20%", top: "85%", input_value: 3, text: "Start" },
 
             // Rápido e Lento - Abaixo dos botões de ação
-            { type: "button", id: "btn_fast", location: "right", input_value: 12, text: "Rápido" },
-            { type: "button", id: "btn_slow", location: "right", input_value: 13, text: "Lento" }
+            { type: "button", id: "btn_fast", location: "right", right: "25%", top: "85%", input_value: 12, text: "Rápido" },
+            { type: "button", id: "btn_slow", location: "right", right: "8%", top: "85%", input_value: 13, text: "Lento" }
         ];
         
         // Função para colocar a janela toda em tela cheia (para mobile e desktop)
