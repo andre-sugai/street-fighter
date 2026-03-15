@@ -106,6 +106,44 @@
             { type: "button", location: "top", left: "5%", top: "10%", width: "80px", height: "40px", input_value: 10, text: "L" },
             { type: "button", location: "top", right: "5%", top: "10%", width: "80px", height: "40px", input_value: 11, text: "R" }
         ];
+        
+        // Tentar forçar o início sem pausa
+        EJS_onReady = function() {
+            setTimeout(function() {
+                try {
+                    // Força o emulador a despausar mesmo sem interação prévia
+                    if (window.EJS_emulator && typeof window.EJS_emulator.unpause === 'function') {
+                        window.EJS_emulator.unpause();
+                    }
+                    var canvas = document.querySelector('#game canvas');
+                    if (canvas) {
+                        // Tenta despachar um evento de clique no canvas para enganar a política de áudio
+                        canvas.dispatchEvent(new Event('mousedown'));
+                        canvas.dispatchEvent(new Event('mouseup'));
+                        canvas.dispatchEvent(new Event('click'));
+                        canvas.focus();
+                    }
+                } catch(e) {}
+            }, 500);
+        };
+        
+        // Captura o primeiro clique do usuário em qualquer lugar para garantir que o áudio/emulador destrave
+        document.addEventListener('click', function() {
+            try {
+                if (window.EJS_emulator && typeof window.EJS_emulator.unpause === 'function') {
+                    window.EJS_emulator.unpause();
+                }
+            } catch(e) {}
+        }, { once: true });
+        
+        document.addEventListener('touchstart', function() {
+            try {
+                if (window.EJS_emulator && typeof window.EJS_emulator.unpause === 'function') {
+                    window.EJS_emulator.unpause();
+                }
+            } catch(e) {}
+        }, { once: true });
+
         // Remover tela de loading quando o jogo carregar
         window.addEventListener('load', function() {
             setTimeout(function() {
