@@ -113,85 +113,7 @@
             position: relative; /* Referência para posições absolutas */
         }
         
-        /* OVERRIDE FORÇADO PARA OS CONTROLES VIRTUAIS DO EMULATORJS */
 
-        /* Estilos base para todos os botões */
-        div[id^="btn_"] {
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            background: rgba(0, 0, 0, 0.5) !important;
-            border: 2px solid rgba(255, 255, 255, 0.6) !important;
-            color: rgba(255, 255, 255, 0.9) !important;
-            font-family: Arial, sans-serif !important;
-            box-sizing: border-box !important;
-            position: absolute !important;
-            z-index: 1000 !important;
-        }
-
-        /* Topo - ESQ (L) e DIR (R) */
-        #btn_l, #btn_r {
-            top: 8% !important;
-            bottom: auto !important;
-            width: 90px !important;
-            height: 50px !important;
-            border-radius: 8px !important;
-            font-size: 24px !important;
-            font-weight: bold !important;
-        }
-        #btn_l { left: 5% !important; right: auto !important; }
-        #btn_r { right: 5% !important; left: auto !important; }
-
-        /* Direcional - Canto inferior esquerdo */
-        #dpad_main {
-            left: 5% !important;
-            top: 50% !important;
-            bottom: auto !important;
-            right: auto !important;
-            width: 150px !important;
-            height: 150px !important;
-            position: absolute !important;
-            z-index: 1000 !important;
-        }
-
-        /* Botões de Ação - Canto inferior direito (Formato Diamante) */
-        #btn_y, #btn_x, #btn_a, #btn_b {
-            width: 50px !important;
-            height: 50px !important;
-            border-radius: 50% !important;
-            font-size: 20px !important;
-            font-weight: bold !important;
-        }
-        #btn_y { right: 28% !important; top: 60% !important; bottom: auto !important; left: auto !important; margin-left: 0 !important; margin-top: 0 !important; }
-        #btn_x { right: 18% !important; top: 45% !important; bottom: auto !important; left: auto !important; margin-left: 0 !important; margin-top: 0 !important; }
-        #btn_a { right: 8% !important; top: 60% !important; bottom: auto !important; left: auto !important; margin-left: 0 !important; margin-top: 0 !important; }
-        #btn_b { right: 18% !important; top: 75% !important; bottom: auto !important; left: auto !important; margin-left: 0 !important; margin-top: 0 !important; }
-
-        /* Select e Start - Abaixo do direcional */
-        #btn_sel, #btn_start {
-            top: 85% !important;
-            bottom: auto !important;
-            height: 30px !important;
-            width: 60px !important;
-            border-radius: 4px !important;
-            font-size: 14px !important;
-            font-weight: normal !important;
-        }
-        #btn_sel { left: 5% !important; right: auto !important; }
-        #btn_start { left: 20% !important; right: auto !important; }
-
-        /* Rápido e Lento - Abaixo dos botões de ação */
-        #btn_fast, #btn_slow {
-            top: 85% !important;
-            bottom: auto !important;
-            height: 30px !important;
-            width: 60px !important;
-            border-radius: 4px !important;
-            font-size: 14px !important;
-            font-weight: normal !important;
-        }
-        #btn_fast { right: 25% !important; left: auto !important; }
-        #btn_slow { right: 8% !important; left: auto !important; }
 
     </style>
 </head>
@@ -227,33 +149,6 @@
         
         // Habilitar controles virtuais na tela
         EJS_virtualGamepad = true;
-        EJS_GameUrl = 'rom.smc';
-        
-        // Forçar limpeza do cache de layout anterior do EmulatorJS
-        try { localStorage.clear(); } catch(e) {}
-        
-        EJS_VirtualGamepadSettings = [
-            // Topo - ESQ e DIR
-            { type: "button", id: "btn_l", location: "left", left: "5%", top: "8%", input_value: 10, text: "ESQ" },
-            { type: "button", id: "btn_r", location: "right", right: "5%", top: "8%", input_value: 11, text: "DIR" },
-
-            // Direcional - Canto inferior esquerdo
-            { type: "dpad", id: "dpad_main", location: "left", left: "5%", top: "50%", inputValues: [4, 5, 6, 7] },
-
-            // Botões de Ação - Canto inferior direito (Formato Diamante)
-            { type: "button", id: "btn_y", location: "right", right: "28%", top: "60%", input_value: 9, text: "Y" },
-            { type: "button", id: "btn_x", location: "right", right: "18%", top: "45%", input_value: 1, text: "X" },
-            { type: "button", id: "btn_a", location: "right", right: "8%", top: "60%", input_value: 0, text: "A" },
-            { type: "button", id: "btn_b", location: "right", right: "18%", top: "75%", input_value: 8, text: "B" },
-
-            // Select e Start - Abaixo do direcional
-            { type: "button", id: "btn_sel", location: "left", left: "5%", top: "85%", input_value: 2, text: "Select" },
-            { type: "button", id: "btn_start", location: "left", left: "20%", top: "85%", input_value: 3, text: "Start" },
-
-            // Rápido e Lento - Abaixo dos botões de ação
-            { type: "button", id: "btn_fast", location: "right", right: "25%", top: "85%", input_value: 12, text: "Rápido" },
-            { type: "button", id: "btn_slow", location: "right", right: "8%", top: "85%", input_value: 13, text: "Lento" }
-        ];
         
         // Função para colocar a janela toda em tela cheia (para mobile e desktop)
         function requestFullScreen(element) {
